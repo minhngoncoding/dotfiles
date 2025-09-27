@@ -1,7 +1,6 @@
 # Set default keyboard layout when open terminal is US
 ibus engine xkb:us::eng
 
-#
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -24,6 +23,7 @@ zinit light Aloxaf/fzf-tab
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
 zinit snippet OMZP::archlinux
+zinit snippet OMZP::dirhistory
 
 autoload -U compinit && compinit
 
@@ -61,6 +61,17 @@ setopt hist_ignore_dups
 setopt hist_save_no_dups
 setopt hist_find_no_dups
 
+# --- Yazi ---
+export EDITOR="nvim"
+
+# Change the current directory when exit Yazi
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
 
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(fzf --zsh)"
