@@ -1,5 +1,6 @@
 # Set default keyboard layout when open terminal is US
-ibus engine xkb:us::eng
+# Set input method to US on terminal start
+fcitx5-remote -s keyboard-us
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
